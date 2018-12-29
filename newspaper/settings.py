@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+# get_env_variable is added to get value from environment variables
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(name):
+    try:
+        return os.environ[name]
+    except KeyError:
+        raise ImproperlyConfigured("Environment variable % s not found.", name)
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +35,7 @@ SECRET_KEY = 'zrrzp#6tp!i-sbz4)5k03&7n4kz4815+56&lqpcmq@0h2@9e+5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local
     'users.apps.UsersConfig',
+    'pages.apps.PagesConfig',
+    # 3rd Party
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +138,12 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
