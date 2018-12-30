@@ -3,13 +3,28 @@
 
 <div class="article-entry">
     <h2>{{ object.title }}</h2>
-    <p>by {{ object.author }} | {{ object.date }}</p>
-    <p>{{ object.body }}</p>
 </div>
-{% if article.author == user %}
-    <p><a href="{% url 'article_edit' article.pk %}" style="color:green;">Edit</a> |
-        <a href="{% url 'article_delete' article.pk %}" style="color:red;">Delete</a></p>
-{% endif %}
+<div class="card">
+    <div class="card-header">
+        <span class="text-muted">by <a href="{% url 'user_articles' article.author %}" class="font-weight-bold" style="color:black;">{{ article.author }}</a> | {{ article.date }}</span>
+    </div>
+    <div class="card-body">
+        <p>{{ article.body }}</p>
+        {% if article.author == user %}
+        <a href="{% url 'article_edit' article.pk %}" style="color:green;">Edit</a> |
+        <a href="{% url 'article_delete' article.pk %}" style="color:red;">Delete</a>
+        {% endif %}
+    </div>
+    <div class="card-footer">
+        {% for comment in article.comments.all %}
+        <p>
+            <span> <a href="{% url 'user_articles' article.author %}" class="font-weight-bold" style="color:black;">{{ comment.author }}</a> &middot;</span>
+            {{ comment }}
+        </p>
+        {% endfor %}
+    </div>
+</div>
+<br>
 <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
 
 {% endblock content %}
