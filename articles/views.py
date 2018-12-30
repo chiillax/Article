@@ -9,6 +9,10 @@ class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = 'article/article_list.html'
     login_url = 'login'
+    ordering = ['-date']
+
+    # def get_queryset(self):
+    #     return Article.objects.filter(author=self.request.user)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
