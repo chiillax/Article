@@ -18,12 +18,7 @@
         {% endif %}
     </div>
     <div class="card-footer">
-        {% for comment in article.comments.all %}
-        <p>
-            <span> <a href="{% url 'user_articles' article.author %}" class="font-weight-bold" style="color:black;"> {{ comment.author }}</a> &middot;</span>
-            {{ comment }}
-        </p>
-        {% endfor %}
+        <span><a href="{% url 'article_detail' article.pk %}">Comments : {{ article.comments.count }}</a></span> &middot;
     </div>
 </div>
 <br />

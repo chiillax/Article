@@ -16,15 +16,37 @@
         {% endif %}
     </div>
     <div class="card-footer">
-        {% for comment in article.comments.all %}
+        <!-- {% for comment in article.comments.all %}
         <p>
             <span> <a href="{% url 'user_articles' article.author %}" class="font-weight-bold" style="color:black;">{{ comment.author }}</a> &middot;</span>
             {{ comment }}
         </p>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 </div>
 <br>
 <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
+<h3>Comments:</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-success ml-2" type="submit">Comment</button>
+</form>
+<br>
+{% for comment in article.comments.all %}
+{% if user.is_authenticated %}
+<div class="comment">
+	<div class="date">
+		<span class="text-muted">{{ comment.date|timesince }} ago </span>
+	</div>
+	<p>
+        <span> <a href="{% url 'user_articles' comment.author %}" class="font-weight-bold" style="color:black;">{{ comment.author }}</a> &middot;</span>
+        {{ comment }}
+    </p>
+</div>
+{% endif %}
+{% empty %}
+<p>No comments here yet :(</p>
+{% endfor %}
 
 {% endblock content %}
