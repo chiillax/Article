@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'articles.apps.ArticlesConfig',
     # 3rd Party
     'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -165,11 +166,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
-<<<<<<< HEAD
 EMAIL_HOST_USER = 'apikey'
-=======
-EMAIL_HOST_USER = get_env_variable('EMAIL_HOST_USER')
->>>>>>> upstream/master
 EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

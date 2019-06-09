@@ -1,11 +1,37 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load widget_tweaks %}
 
+{% block content %}
+<!-- 
 <h1>Edit</h1>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-info ml-2" type="submit">Update</button>
-</form>
+</form> -->
 
+<form method="post">
+    {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% render_field field class="form-control" %}
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">
+            <span class="glyphicon glyphicon-ok"></span> Update
+        </button>
+        <a href="{% url 'article_list' %}" class="btn btn-default">Cancel</a>
+    </div>
+</form>
 {% endblock content %}
